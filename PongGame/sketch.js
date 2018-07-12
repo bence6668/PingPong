@@ -13,6 +13,10 @@ function setup() {
     initBall();
 
     p1Score = p2Score = 0;
+
+    textAlign(CENTER);
+    textSize(30);
+    fill(255);
 }
 
 function draw() {
@@ -23,6 +27,7 @@ function draw() {
     ellipse(ball.x, ball.y, 20);
     movePaddles();
     moveBall();
+    text(p1Score + " | " + p2Score, width/2, 50);
 }
 
 function movePaddles() {
@@ -62,6 +67,7 @@ function moveBall() {
 
         if (ball.y > paddle1 && ball.y < paddle1 + 100) {
             ballVel.x *= -1;
+            ballVel.mult(1.1);
         } else {
             p2Score++;
             initBall();
@@ -72,6 +78,7 @@ function moveBall() {
 
         if (ball.y > paddle2 && ball.y < paddle2 + 100) {
             ballVel.x *= -1;
+            ballVel.mult(1.1);
         } else {
             p1Score++;
             initBall();
@@ -82,5 +89,5 @@ function moveBall() {
 
 function initBall() {
     ball = createVector(width / 2, height / 2);
-    ballVel = createVector(random(-3, 3), random(-3, 3));
+    ballVel = createVector(2, 2);
 }
