@@ -1,14 +1,18 @@
 var paddle1, paddle2;
 var paddleVel1, paddleVel2;
+var p1Score, p2Score;
 var ballVel;
 var ball;
 
 function setup() {
     createCanvas(600, 400);
+
     paddleVel1 = paddleVel2 = 0;
     paddle1 = paddle2 = height / 2 - 50;
-    ball = createVector(width/2, height/2);
-    ballVel = createVector(random(-2,2),random(-2,2));
+
+    initBall();
+
+    p1Score = p2Score = 0;
 }
 
 function draw() {
@@ -24,15 +28,15 @@ function draw() {
 function movePaddles() {
 
     if(keyIsDown(87)){
-        paddleVel1 -= 5;
+        paddleVel1 -= 8;
     }else if(keyIsDown(83)){
-        paddleVel1 += 5;
+        paddleVel1 += 8;
     }
 
     if (keyIsDown(UP_ARROW)) {
-        paddleVel2 -= 5;
+        paddleVel2 -= 8;
     } else if (keyIsDown(DOWN_ARROW)) {
-        paddleVel2 += 5;
+        paddleVel2 += 8;
     }
 
       paddleVel1 *= 0.4;
@@ -47,4 +51,36 @@ function movePaddles() {
 
 function moveBall() {
 
+    ball.y += ballVel.y;
+    ball.x += ballVel.x;
+    
+    if (ball.y-10 < 0 || ball.y+10 > height) {
+        ballVel.y *= -1; 
+    }
+
+    if (ball.x < 42.5) {
+
+        if (ball.y > paddle1 && ball.y < paddle1 + 100) {
+            ballVel.x *= -1;
+        } else {
+            p2Score++;
+            initBall();
+            return; 
+        }
+        
+    } else if (ball.x > width - 42.5) {
+
+        if (ball.y > paddle2 && ball.y < paddle2 + 100) {
+            ballVel.x *= -1;
+        } else {
+            p1Score++;
+            initBall();
+        }
+    }
+
+}
+
+function initBall() {
+    ball = createVector(width / 2, height / 2);
+    ballVel = createVector(random(-3, 3), random(-3, 3));
 }
